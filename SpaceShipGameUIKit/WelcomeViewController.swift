@@ -60,8 +60,10 @@ class WelcomeViewController: UIViewController {
     }
 
     @objc private func startGameButtonTapped() {
-        // Действие при нажатии кнопки "Start Game"
+        let gameViewController = GameViewController()
+        navigationController?.pushViewController(gameViewController, animated: true)
     }
+
     
     @objc private func shipSelectionButtonTapped() {
         // Действие при нажатии кнопки "Ship Selection"

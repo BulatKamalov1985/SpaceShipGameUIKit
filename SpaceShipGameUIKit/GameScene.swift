@@ -4,11 +4,10 @@
 //
 //  Created by Bulat Kamalov on 15.08.2023.
 //
-import SwiftUI
 import SpriteKit
 import GameKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate, ObservableObject {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Properties
     

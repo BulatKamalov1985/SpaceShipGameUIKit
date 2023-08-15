@@ -12,19 +12,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Создайте ваш корневой контроллер
-        let welcomeViewController = WelcomeViewController() // Используйте ваш корневой контроллер
+        let welcomeViewController = WelcomeViewController()
         let navigationController = UINavigationController(rootViewController: welcomeViewController)
         
-        // Установите корневой контроллер
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         
         return true
     }
+
+
 
 
     func applicationWillResignActive(_ application: UIApplication) {

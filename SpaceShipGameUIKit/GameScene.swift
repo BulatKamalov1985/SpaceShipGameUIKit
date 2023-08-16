@@ -8,22 +8,28 @@ import SpriteKit
 import GameKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    
+
     // MARK: - Properties
     
     let playerCategory: UInt32 = 0x1
     let enemyCategory: UInt32 = 0x10
     let laserCategory: UInt32 = 0x100
+
     
     private var starfield = SKEmitterNode()
     private var player = SKSpriteNode()
     private var playerFire = SKSpriteNode()
     private var enemy = SKSpriteNode()
     private var shotCounterLabel = SKLabelNode()
-    var shotCount = 0
+    private var nameLabel = SKLabelNode()
+    var enemyCounter = 0
     private var fireTimer: Timer?
     private var enemyTimer: Timer?
     var isCollisionOccurred = false
+    var isGameRunning = true
+    
+    var playerName: String = ""
+
     
     // MARK: - Scene Lifecycle
     
@@ -31,8 +37,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         setupScene()
         startTimers()
+        if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
+            // Используйте playerName, например, установите его в лейбл
+            nameLabel.text = playerName
+        } else {
+            // Если имя не найдено в UserDefaults, можно установить значение по умолчанию
+            nameLabel.text = "Default Name"
+        }
     }
-    
+
+
+
     // MARK: - Setup
     
     func setupScene() {
@@ -40,6 +55,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createStarfield()
         createPlayer(playerType: "ship1")
         createCountLabel()
+        createNameLabel()
     }
     
     private func createStarfield() {
@@ -85,12 +101,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(border)
     }
     
+    private func createNameLabel() {
+        nameLabel = SKLabelNode(text: playerName)
+        nameLabel.fontName = "Helvetica-Bold"
+        nameLabel.fontSize = 30
+        nameLabel.fontColor = .white
+        nameLabel.position = CGPoint(x: size.width - 100, y: size.height - 150)
+        nameLabel.zPosition = 10
+        addChild(nameLabel)
+    }
+    
     // MARK: - Timers
     
     func startTimers() {
-        fireTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(playerFireAttack), userInfo: nil, repeats: true)
-        enemyTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(makeEnemies), userInfo: nil, repeats: true)
+        if isGameRunning {
+            fireTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(playerFireAttack), userInfo: nil, repeats: true)
+            enemyTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(makeEnemies), userInfo: nil, repeats: true)
+        }
     }
+
     
     func stopTimers() {
         fireTimer?.invalidate()
@@ -115,15 +144,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let combine = SKAction.sequence([moveAction, delateAction])
         playerFire.userData = ["isPlayerLaser": true]
         playerFire.run(combine)
-        
-        shotCount += 1
-        updateShotCounterLabel(count: shotCount)
     }
     
     @objc private func makeEnemies() {
         let randomNumber = GKRandomDistribution(lowestValue: 50, highestValue: 700)
         enemy = SKSpriteNode(imageNamed: "ship4")
-        enemy.setScale(0.3)
+        enemy.setScale(0.2)
         enemy.position = CGPoint(x: randomNumber.nextInt(), y: 1400)
         enemy.zPosition = 5
         enemy.name = "ENEMY"
@@ -138,19 +164,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let delateAction = SKAction.removeFromParent()
         let combine = SKAction.sequence([moveAction, delateAction])
         enemy.run(combine)
+        enemyCounter += 1
+        updateEnemyCounterLabel(count: enemyCounter)
     }
     
-    private func updateShotCounterLabel(count: Int) {
+    private func updateEnemyCounterLabel(count: Int) {
         shotCounterLabel.text = "Shots: \(count)"
     }
     
     func restartGame() {
         removeAllChildren() // Remove all nodes from the scene
         setupScene() // Reinitialize the scene
-        startTimers() // Restart timers
         isCollisionOccurred = false // Reset collision flag
-        shotCount = 0 // Reset shot count
+        enemyCounter = 0 // Reset shot count
+        isGameRunning = true // Запускаем игру снова
+        startTimers() // Restart timers
     }
+
 
     
     // MARK: - Touches
@@ -164,20 +194,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     // Метод для показа всплывающего окна с сообщением об окончании игры после столкновения
-    func showGameOverAlert() {
+    @objc private func showGameOverAlert() {
         let alert = UIAlertController(title: "Игра окончена", message: "Вы столкнулись с врагом!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            // Вызываем метод resetPlayer после закрытия алерта
-            self?.resetPlayer()
-            self?.shotCount = 0
+            self?.saveScore()
+            self?.restartGame() // Перезапускайте игру и таймеры здесь
+            self?.enemyCounter = 0
         }
         alert.addAction(okAction)
         
-        // Получите текущий вид окна и представление сцены
         if let window = view?.window, let viewController = window.rootViewController {
             viewController.present(alert, animated: true, completion: nil)
         }
     }
+    
+    func saveScore() {
+        // Сохранение рекорда в UserDefaults
+        UserDefaults.standard.set(enemyCounter, forKey: "HighScore")
+        
+        // Получение текущего имени из UserDefaults
+        if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
+            // Сохранение имени и рекорда в массив рекордов
+            var highScores = UserDefaults.standard.array(forKey: "HighScores") as? [String] ?? []
+            let record = "\(playerName): \(enemyCounter)"
+            highScores.append(record)
+            UserDefaults.standard.set(highScores, forKey: "HighScores")
+        }
+    }
+
+
+
     
     // MARK: - Collision
     
@@ -198,7 +244,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nodeA.removeFromParent()
             nodeB.removeFromParent()
             isCollisionOccurred = true
-            // Показываем UIAlertController после удаления player и врага
+            isGameRunning = false // Останавливаем игру
+            stopTimers() // Останавливаем таймеры
             showGameOverAlert()
         }
         

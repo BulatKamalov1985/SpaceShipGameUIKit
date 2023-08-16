@@ -31,10 +31,10 @@ class WelcomeViewController: UIViewController {
         view.addSubview(startGameButton)
         
         let shipSelectionButton = UIButton()
-        shipSelectionButton.setTitle("Ship Selection", for: .normal)
+        shipSelectionButton.setTitle("Scores", for: .normal)
         shipSelectionButton.setTitleColor(.blue, for: .normal)
         shipSelectionButton.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        shipSelectionButton.addTarget(self, action: #selector(shipSelectionButtonTapped), for: .touchUpInside)
+        shipSelectionButton.addTarget(self, action: #selector(scoresButtonTapped), for: .touchUpInside)
         shipSelectionButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(shipSelectionButton)
         
@@ -61,15 +61,21 @@ class WelcomeViewController: UIViewController {
 
     @objc private func startGameButtonTapped() {
         let gameViewController = GameViewController()
+        if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
+            gameViewController.playerName = playerName
+        }
         navigationController?.pushViewController(gameViewController, animated: true)
     }
 
+
     
-    @objc private func shipSelectionButtonTapped() {
-        // Действие при нажатии кнопки "Ship Selection"
+    @objc private func scoresButtonTapped() {
+        let scoresTableViewController = ScoresTableViewController()
+        navigationController?.pushViewController(scoresTableViewController, animated: true)
     }
     
     @objc private func openSettingScreenButtonTapped() {
-        // Действие при нажатии кнопки "Open Setting Screen"
+        let settingsVC = SettingsViewController()
+        navigationController?.pushViewController(settingsVC, animated: true)
     }
 }

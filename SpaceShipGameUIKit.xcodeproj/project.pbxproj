@@ -8,25 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		39327EC32A8B97FB0067F9ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39327EC22A8B97FB0067F9ED /* AppDelegate.swift */; };
-		39327EC52A8B97FB0067F9ED /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 39327EC42A8B97FB0067F9ED /* GameScene.sks */; };
-		39327EC72A8B97FB0067F9ED /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 39327EC62A8B97FB0067F9ED /* Actions.sks */; };
 		39327EC92A8B97FB0067F9ED /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39327EC82A8B97FB0067F9ED /* GameScene.swift */; };
 		39327ECB2A8B97FB0067F9ED /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39327ECA2A8B97FB0067F9ED /* GameViewController.swift */; };
 		39327ED02A8B97FF0067F9ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39327ECF2A8B97FF0067F9ED /* Assets.xcassets */; };
 		39327EDA2A8B98C50067F9ED /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39327ED92A8B98C50067F9ED /* WelcomeViewController.swift */; };
 		39327EDC2A8B9B550067F9ED /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 39327EDB2A8B9B550067F9ED /* Starfield.sks */; };
+		39327EE02A8CC4060067F9ED /* ScoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39327EDF2A8CC4060067F9ED /* ScoreTableViewController.swift */; };
+		39327EE22A8CC4440067F9ED /* ScoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39327EE12A8CC4440067F9ED /* ScoreTableViewCell.swift */; };
+		39327EE42A8CC45D0067F9ED /* ScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39327EE32A8CC45D0067F9ED /* ScoreModel.swift */; };
+		39327EE62A8CC9D70067F9ED /* SettigsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39327EE52A8CC9D70067F9ED /* SettigsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		39327EBF2A8B97FB0067F9ED /* SpaceShipGameUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceShipGameUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39327EC22A8B97FB0067F9ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		39327EC42A8B97FB0067F9ED /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		39327EC62A8B97FB0067F9ED /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		39327EC82A8B97FB0067F9ED /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		39327ECA2A8B97FB0067F9ED /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		39327ECF2A8B97FF0067F9ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		39327ED92A8B98C50067F9ED /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		39327EDB2A8B9B550067F9ED /* Starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Starfield.sks; sourceTree = "<group>"; };
+		39327EDF2A8CC4060067F9ED /* ScoreTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreTableViewController.swift; sourceTree = "<group>"; };
+		39327EE12A8CC4440067F9ED /* ScoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreTableViewCell.swift; sourceTree = "<group>"; };
+		39327EE32A8CC45D0067F9ED /* ScoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreModel.swift; sourceTree = "<group>"; };
+		39327EE52A8CC9D70067F9ED /* SettigsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettigsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,12 +64,14 @@
 			isa = PBXGroup;
 			children = (
 				39327EC22A8B97FB0067F9ED /* AppDelegate.swift */,
-				39327EC42A8B97FB0067F9ED /* GameScene.sks */,
-				39327EC62A8B97FB0067F9ED /* Actions.sks */,
 				39327EDB2A8B9B550067F9ED /* Starfield.sks */,
 				39327EC82A8B97FB0067F9ED /* GameScene.swift */,
 				39327ECA2A8B97FB0067F9ED /* GameViewController.swift */,
 				39327ED92A8B98C50067F9ED /* WelcomeViewController.swift */,
+				39327EDF2A8CC4060067F9ED /* ScoreTableViewController.swift */,
+				39327EE52A8CC9D70067F9ED /* SettigsViewController.swift */,
+				39327EE32A8CC45D0067F9ED /* ScoreModel.swift */,
+				39327EE12A8CC4440067F9ED /* ScoreTableViewCell.swift */,
 				39327ECF2A8B97FF0067F9ED /* Assets.xcassets */,
 			);
 			path = SpaceShipGameUIKit;
@@ -129,10 +135,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39327EC52A8B97FB0067F9ED /* GameScene.sks in Resources */,
 				39327ED02A8B97FF0067F9ED /* Assets.xcassets in Resources */,
 				39327EDC2A8B9B550067F9ED /* Starfield.sks in Resources */,
-				39327EC72A8B97FB0067F9ED /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,9 +147,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39327EE62A8CC9D70067F9ED /* SettigsViewController.swift in Sources */,
 				39327EC92A8B97FB0067F9ED /* GameScene.swift in Sources */,
 				39327EDA2A8B98C50067F9ED /* WelcomeViewController.swift in Sources */,
 				39327ECB2A8B97FB0067F9ED /* GameViewController.swift in Sources */,
+				39327EE42A8CC45D0067F9ED /* ScoreModel.swift in Sources */,
+				39327EE02A8CC4060067F9ED /* ScoreTableViewController.swift in Sources */,
+				39327EE22A8CC4440067F9ED /* ScoreTableViewCell.swift in Sources */,
 				39327EC32A8B97FB0067F9ED /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

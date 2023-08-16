@@ -9,11 +9,16 @@ import UIKit
 import SpriteKit
 
 class GameViewController: UIViewController {
-    private var gameScene: GameScene!
+    
+    var playerName: String?
+    private var gameScene: GameScene?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGameScene()
+        let scene = GameScene(size: view.bounds.size)
+                scene.playerName = playerName ?? ""
+
     }
 
     func setupGameScene() {
@@ -31,6 +36,5 @@ class GameViewController: UIViewController {
         let gameScene = GameScene(size: size)
         return gameScene
     }
-    
-    // Дополнительные методы и настройки интерфейса, если нужно
+ 
 }

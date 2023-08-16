@@ -10,7 +10,6 @@ import UIKit
 class ScoresTableViewController: UITableViewController {
 
     var scores: [Int] = []
-    var namesPlayers: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +26,7 @@ class ScoresTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: ScoreTableViewCell.reuseIdentifier, for: indexPath) as! ScoreTableViewCell
         let scoreValue = scores[indexPath.row]
         let score = Score(playerName: "Player \(indexPath.row + 1)", score: scoreValue)
-        cell.configure(playerName: score.playerName, score: score.score)
+        cell.configure(with: score)
         return cell
     }
     
@@ -37,8 +36,4 @@ class ScoresTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    func loadNamePlayer() {
-        namesPlayers = UserDefaults.standard.string(forKey: "PlayerName")!
-        tableView.reloadData()
-    }
 }

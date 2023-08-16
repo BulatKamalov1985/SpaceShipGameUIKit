@@ -8,13 +8,13 @@ import SpriteKit
 import GameKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-
+    
     // MARK: - Properties
     
     let playerCategory: UInt32 = 0x1
     let enemyCategory: UInt32 = 0x10
     let laserCategory: UInt32 = 0x100
-
+    
     
     private var starfield = SKEmitterNode()
     private var player = SKSpriteNode()
@@ -29,7 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var isGameRunning = true
     
     var playerName: String = ""
-
+    
     
     // MARK: - Scene Lifecycle
     
@@ -45,9 +45,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nameLabel.text = "Default Name"
         }
     }
-
-
-
+    
+    
+    
     // MARK: - Setup
     
     func setupScene() {
@@ -66,7 +66,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func createPlayer(playerType: String) {
-  
+        
         player = SKSpriteNode(imageNamed: playerType)
         player.position = CGPoint(x: size.width / 2, y: 120)
         player.setScale(0.4)
@@ -119,7 +119,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             enemyTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(makeEnemies), userInfo: nil, repeats: true)
         }
     }
-
+    
     
     func stopTimers() {
         fireTimer?.invalidate()
@@ -180,8 +180,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         isGameRunning = true // Запускаем игру снова
         startTimers() // Restart timers
     }
-
-
+    
+    
     
     // MARK: - Touches
     
@@ -209,22 +209,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func saveScore() {
-        // Сохранение рекорда в UserDefaults
-        UserDefaults.standard.set(enemyCounter, forKey: "HighScore")
-        
-        // Получение текущего имени из UserDefaults
-        if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
-            // Сохранение имени и рекорда в массив рекордов
-            var highScores = UserDefaults.standard.array(forKey: "HighScores") as? [String] ?? []
-            let record = "\(playerName): \(enemyCounter)"
-            highScores.append(record)
-            UserDefaults.standard.set(highScores, forKey: "HighScores")
-        }
+        // Сохранение имени и рекорда в массив рекордов
+        var highScores = UserDefaults.standard.array(forKey: "HighScores") as? [Int] ?? []
+        let record = enemyCounter
+        highScores.append(record)
+        UserDefaults.standard.set(highScores, forKey: "HighScores")
     }
-
-
-
-    
+ 
     // MARK: - Collision
     
     // Метод для обработки столкновений объектов и показа взрывов
@@ -284,6 +275,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Метод для остановки таймеров перед освобождением памяти
     deinit {
-            stopTimers()
-        }
+        stopTimers()
     }
+}

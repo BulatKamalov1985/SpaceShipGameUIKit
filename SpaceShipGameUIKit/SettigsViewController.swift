@@ -68,10 +68,8 @@ class SettingsViewController: UIViewController {
     
     @objc private func actionButtonTapped() {
         if let name = nameTextField.text, !name.isEmpty {
-//            UserDefaults.standard.set(name, forKey: "PlayerName")
+            UserDefaults.standard.set(name, forKey: "PlayerName")
             nameTitleLabel.text = name
         }
     }
-
-
 }

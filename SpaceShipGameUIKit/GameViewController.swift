@@ -16,9 +16,6 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGameScene()
-        let scene = GameScene(size: view.bounds.size)
-                scene.playerName = playerName ?? ""
-
     }
 
     func setupGameScene() {
@@ -28,12 +25,13 @@ class GameViewController: UIViewController {
         skView.showsNodeCount = true
         view.addSubview(skView)
         
-        gameScene = createGameScene(size: skView.bounds.size)
+        gameScene = createGameScene(size: skView.bounds.size, playerName: playerName ?? "Default Name")
         skView.presentScene(gameScene)
     }
 
-    func createGameScene(size: CGSize) -> GameScene {
+    func createGameScene(size: CGSize, playerName: String) -> GameScene {
         let gameScene = GameScene(size: size)
+        gameScene.playerName = playerName
         return gameScene
     }
  

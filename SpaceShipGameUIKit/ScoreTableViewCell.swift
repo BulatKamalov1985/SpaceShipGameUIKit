@@ -23,10 +23,10 @@ class ScoreTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(playerName: String, score: Int) {
-            playerNameLabel.text = playerName
-            scoreLabel.text = "Score: \(score)"
-        }
+    func configure(with score: Score) {
+        playerNameLabel.text = score.playerName
+        scoreLabel.text = "\(score.score)"
+    }
 
     private func setupUI() {
         playerNameLabel.translatesAutoresizingMaskIntoConstraints = false

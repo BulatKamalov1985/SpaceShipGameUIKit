@@ -67,8 +67,6 @@ class WelcomeViewController: UIViewController {
         navigationController?.pushViewController(gameViewController, animated: true)
     }
 
-
-    
     @objc private func scoresButtonTapped() {
         let scoresTableViewController = ScoresTableViewController()
         navigationController?.pushViewController(scoresTableViewController, animated: true)

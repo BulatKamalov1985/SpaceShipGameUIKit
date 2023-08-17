@@ -15,6 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let enemyCategory: UInt32 = 0x10
     let laserCategory: UInt32 = 0x100
     
+    var nameScoreDictionary: [String: Int] = [:]
     
     private var starfield = SKEmitterNode()
     private var player = SKSpriteNode()
@@ -37,15 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         setupScene()
         startTimers()
-        if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
-            // Используйте playerName, например, установите его в лейбл
-            nameLabel.text = playerName
-        } else {
-            // Если имя не найдено в UserDefaults, можно установить значение по умолчанию
-            nameLabel.text = "Default Name"
-        }
     }
-    
     
     
     // MARK: - Setup
@@ -66,7 +59,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func createPlayer(playerType: String) {
-        
         player = SKSpriteNode(imageNamed: playerType)
         player.position = CGPoint(x: size.width / 2, y: 120)
         player.setScale(0.4)
@@ -105,6 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         nameLabel = SKLabelNode(text: playerName)
         nameLabel.fontName = "Helvetica-Bold"
         nameLabel.fontSize = 30
+        nameLabel.numberOfLines = 0
         nameLabel.fontColor = .white
         nameLabel.position = CGPoint(x: size.width - 100, y: size.height - 150)
         nameLabel.zPosition = 10
@@ -119,7 +112,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             enemyTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(makeEnemies), userInfo: nil, repeats: true)
         }
     }
-    
     
     func stopTimers() {
         fireTimer?.invalidate()
@@ -159,13 +151,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.physicsBody?.contactTestBitMask = playerCategory | laserCategory
         enemy.physicsBody?.collisionBitMask = 0
         addChild(enemy)
-        
-        let moveAction = SKAction.moveTo(y: -100, duration: 2)
-        let delateAction = SKAction.removeFromParent()
-        let combine = SKAction.sequence([moveAction, delateAction])
-        enemy.run(combine)
-        enemyCounter += 1
-        updateEnemyCounterLabel(count: enemyCounter)
+        //        сохраняю скорость степпера
+        if let savedStepperValue = UserDefaults.standard.value(forKey: "StepperValue") as? Double {
+            let moveAction = SKAction.moveTo(y: -100, duration: savedStepperValue)
+            let delateAction = SKAction.removeFromParent()
+            let combine = SKAction.sequence([moveAction, delateAction])
+            enemy.run(combine)
+            enemyCounter += 1
+            updateEnemyCounterLabel(count: enemyCounter)
+        } else {
+            print("Stepper value not found in UserDefaults or not a Double")
+        }
     }
     
     private func updateEnemyCounterLabel(count: Int) {
@@ -198,7 +194,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let alert = UIAlertController(title: "Игра окончена", message: "Вы столкнулись с врагом!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
             self?.saveScore()
-            self?.restartGame() // Перезапускайте игру и таймеры здесь
+            self?.restartGame() // Перезапук игры и таймеров здесь
             self?.enemyCounter = 0
         }
         alert.addAction(okAction)
@@ -209,13 +205,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func saveScore() {
-        // Сохранение имени и рекорда в массив рекордов
-        var highScores = UserDefaults.standard.array(forKey: "HighScores") as? [Int] ?? []
-        let record = enemyCounter
-        highScores.append(record)
-        UserDefaults.standard.set(highScores, forKey: "HighScores")
+        // Сохраняем текущее значение очков для текущего имени игрока
+        if let playerName = nameLabel.text,
+           let scoreString = shotCounterLabel.text?.split(separator: " ").last,
+           let score = Int(scoreString) {
+            
+            // Получаем текущий словарь из UserDefaults
+            var nameScoreDictionary = UserDefaults.standard.dictionary(forKey: "NameScoreDictionary") as? [String: Int] ?? [:]
+            
+            // Проверяем, есть ли уже запись для данного имени в словаре
+            if let existingScore = nameScoreDictionary[playerName] {
+                // Если текущее значение очков больше или равно существующему, обновляем запись
+                if score >= existingScore {
+                    nameScoreDictionary[playerName] = score
+                    // Сохраняем обновленный словарь обратно в UserDefaults
+                    UserDefaults.standard.set(nameScoreDictionary, forKey: "NameScoreDictionary")
+                    print("Данные сохранились")
+                } else {
+                    print("Текущее значение очков меньше существующего")
+                }
+            } else {
+                // Если записи для данного имени еще нет, добавляем новую запись
+                nameScoreDictionary[playerName] = score
+                // Сохраняем обновленный словарь обратно в UserDefaults
+                UserDefaults.standard.set(nameScoreDictionary, forKey: "NameScoreDictionary")
+                print("Данные сохранились")
+            }
+        } else {
+            print("Ошибка при сохранении данных")
+        }
     }
- 
+
+    
     // MARK: - Collision
     
     // Метод для обработки столкновений объектов и показа взрывов
@@ -235,8 +256,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nodeA.removeFromParent()
             nodeB.removeFromParent()
             isCollisionOccurred = true
-            isGameRunning = false // Останавливаем игру
-            stopTimers() // Останавливаем таймеры
+            isGameRunning = false
+            stopTimers()
             showGameOverAlert()
         }
         

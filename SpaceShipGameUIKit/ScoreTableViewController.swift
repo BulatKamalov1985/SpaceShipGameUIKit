@@ -4,12 +4,11 @@
 //
 //  Created by Bulat Kamalov on 16.08.2023.
 //
-
 import UIKit
 
 class ScoresTableViewController: UITableViewController {
 
-    var scores: [Int] = []
+    var scoresAndNames: [(playerName: String, score: Int)] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,21 +18,28 @@ class ScoresTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return scores.count
+        return scoresAndNames.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ScoreTableViewCell.reuseIdentifier, for: indexPath) as! ScoreTableViewCell
-        let scoreValue = scores[indexPath.row]
-        let score = Score(playerName: "Player \(indexPath.row + 1)", score: scoreValue)
+        let scoreAndName = scoresAndNames[indexPath.row]
+        let score = Score(playerName: scoreAndName.playerName, score: scoreAndName.score)
         cell.configure(with: score)
         return cell
     }
     
     func loadScores() {
-        scores = UserDefaults.standard.array(forKey: "HighScores") as? [Int] ?? []
-        scores.sort(by: > )
+        guard let nameScoreDictionary = UserDefaults.standard.dictionary(forKey: "NameScoreDictionary") as? [String: Int] else {
+            return
+        }
+        // Преобразование словаря в массив кортежей (имя, очки)
+        let sortedScores = nameScoreDictionary.sorted { $0.value > $1.value }
+
+        // Преобразование кортежей в массив очков и имен
+        scoresAndNames = sortedScores.map { ($0.key, $0.value) }
+        
         tableView.reloadData()
     }
-    
+
 }

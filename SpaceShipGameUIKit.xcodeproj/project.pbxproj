@@ -18,6 +18,7 @@
 		39327EE42A8CC45D0067F9ED /* ScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39327EE32A8CC45D0067F9ED /* ScoreModel.swift */; };
 		39327EE62A8CC9D70067F9ED /* SettigsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39327EE52A8CC9D70067F9ED /* SettigsViewController.swift */; };
 		39327F102A8E3DF20067F9ED /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39327F0F2A8E3DF20067F9ED /* CollectionViewCell.swift */; };
+		39327F122A9107A80067F9ED /* DataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39327F112A9107A80067F9ED /* DataStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		39327EE32A8CC45D0067F9ED /* ScoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreModel.swift; sourceTree = "<group>"; };
 		39327EE52A8CC9D70067F9ED /* SettigsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettigsViewController.swift; sourceTree = "<group>"; };
 		39327F0F2A8E3DF20067F9ED /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		39327F112A9107A80067F9ED /* DataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,13 +67,14 @@
 		39327EC12A8B97FB0067F9ED /* SpaceShipGameUIKit */ = {
 			isa = PBXGroup;
 			children = (
-				39327EC22A8B97FB0067F9ED /* AppDelegate.swift */,
 				39327EDB2A8B9B550067F9ED /* Starfield.sks */,
+				39327EC22A8B97FB0067F9ED /* AppDelegate.swift */,
 				39327EC82A8B97FB0067F9ED /* GameScene.swift */,
 				39327ECA2A8B97FB0067F9ED /* GameViewController.swift */,
 				39327ED92A8B98C50067F9ED /* WelcomeViewController.swift */,
 				39327EDF2A8CC4060067F9ED /* ScoreTableViewController.swift */,
 				39327EE52A8CC9D70067F9ED /* SettigsViewController.swift */,
+				39327F112A9107A80067F9ED /* DataStorage.swift */,
 				39327F0F2A8E3DF20067F9ED /* CollectionViewCell.swift */,
 				39327EE32A8CC45D0067F9ED /* ScoreModel.swift */,
 				39327EE12A8CC4440067F9ED /* ScoreTableViewCell.swift */,
@@ -157,6 +160,7 @@
 				39327ECB2A8B97FB0067F9ED /* GameViewController.swift in Sources */,
 				39327EE42A8CC45D0067F9ED /* ScoreModel.swift in Sources */,
 				39327EE02A8CC4060067F9ED /* ScoreTableViewController.swift in Sources */,
+				39327F122A9107A80067F9ED /* DataStorage.swift in Sources */,
 				39327EE22A8CC4440067F9ED /* ScoreTableViewCell.swift in Sources */,
 				39327EC32A8B97FB0067F9ED /* AppDelegate.swift in Sources */,
 			);

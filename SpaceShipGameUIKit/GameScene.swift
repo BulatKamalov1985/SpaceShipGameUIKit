@@ -13,15 +13,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let playerCategory: UInt32 = 0x1
     let enemyCategory: UInt32 = 0x10
-    let laserCategory: UInt32 = 0x100
-    
-    var nameScoreDictionary: [String: Int] = [:]
     
     private var starfield = SKEmitterNode()
     private var player = SKSpriteNode()
-    private var playerFire = SKSpriteNode()
     private var enemy = SKSpriteNode()
-    private var shotCounterLabel = SKLabelNode()
+    private var enemyCounterLabel = SKLabelNode()
     private var nameLabel = SKLabelNode()
     var enemyCounter = 0
     private var fireTimer: Timer?
@@ -30,6 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var isGameRunning = true
     
     var playerName: String = ""
+    var nameScoreDictionary: [String: Int] = [:]
     
     
     // MARK: - Scene Lifecycle
@@ -46,7 +43,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupScene() {
         scene?.size = CGSize(width: 750, height: 1335)
         createStarfield()
-        createPlayer(playerType: "ship1")
+        if let selectedShipName = UserDefaults.standard.string(forKey: "SelectedShipName") {
+            createPlayer(playerType: selectedShipName)
+        }
         createCountLabel()
         createNameLabel()
     }
@@ -61,7 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func createPlayer(playerType: String) {
         player = SKSpriteNode(imageNamed: playerType)
         player.position = CGPoint(x: size.width / 2, y: 120)
-        player.setScale(0.4)
+        player.setScale(0.6)
         player.zPosition = 19
         player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.width / 2)
         player.physicsBody?.isDynamic = false
@@ -71,20 +70,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.collisionBitMask = 0
         addChild(player)
     }
-    
+
     private func createCountLabel() {
-        shotCounterLabel = SKLabelNode(text: "Shots: 0")
-        shotCounterLabel.fontName = "Helvetica-Bold"
-        shotCounterLabel.fontSize = 30
-        shotCounterLabel.fontColor = .white
-        shotCounterLabel.position = CGPoint(x: size.width - 100, y: size.height - 100)
-        shotCounterLabel.zPosition = 10
-        addChild(shotCounterLabel)
+        enemyCounterLabel = SKLabelNode(text: "Enemies: 0")
+        enemyCounterLabel.fontName = "Helvetica-Bold"
+        enemyCounterLabel.fontSize = 30
+        enemyCounterLabel.fontColor = .white
+        enemyCounterLabel.position = CGPoint(x: size.width - 160, y: size.height - 100)
+        enemyCounterLabel.zPosition = 10
+        addChild(enemyCounterLabel)
         
-        let borderRect = CGRect(x: shotCounterLabel.frame.origin.x - 30,
-                                y: shotCounterLabel.frame.origin.y - 5,
-                                width: shotCounterLabel.frame.size.width + 60,
-                                height: shotCounterLabel.frame.size.height + 10)
+        let borderRect = CGRect(x: enemyCounterLabel.frame.origin.x - 30,
+                                y: enemyCounterLabel.frame.origin.y - 5,
+                                width: enemyCounterLabel.frame.size.width + 60,
+                                height: enemyCounterLabel.frame.size.height + 10)
         
         let border = SKShapeNode(rect: borderRect, cornerRadius: 10)
         border.strokeColor = SKColor.white
@@ -108,39 +107,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func startTimers() {
         if isGameRunning {
-            fireTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(playerFireAttack), userInfo: nil, repeats: true)
             enemyTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(makeEnemies), userInfo: nil, repeats: true)
         }
     }
     
     func stopTimers() {
-        fireTimer?.invalidate()
         enemyTimer?.invalidate()
     }
     
     // MARK: - Actions
     
-    @objc private func playerFireAttack() {
-        if isCollisionOccurred {
-            return
-        }
-        playerFire = SKSpriteNode(imageNamed: "red_laser")
-        playerFire.setScale(0.2)
-        playerFire.position = CGPoint(x: player.position.x, y: player.position.y + 10)
-        playerFire.zPosition = 3
-        playerFire.name = "FIRE"
-        addChild(playerFire)
-        
-        let moveAction = SKAction.moveTo(y: 1400, duration: 0.5)
-        let delateAction = SKAction.removeFromParent()
-        let combine = SKAction.sequence([moveAction, delateAction])
-        playerFire.userData = ["isPlayerLaser": true]
-        playerFire.run(combine)
-    }
-    
     @objc private func makeEnemies() {
         let randomNumber = GKRandomDistribution(lowestValue: 50, highestValue: 700)
-        enemy = SKSpriteNode(imageNamed: "ship4")
+        enemy = SKSpriteNode(imageNamed: "Solar Strider")
         enemy.setScale(0.2)
         enemy.position = CGPoint(x: randomNumber.nextInt(), y: 1400)
         enemy.zPosition = 5
@@ -148,10 +127,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.physicsBody = SKPhysicsBody(circleOfRadius: enemy.size.width / 2)
         enemy.physicsBody?.isDynamic = true
         enemy.physicsBody?.categoryBitMask = enemyCategory
-        enemy.physicsBody?.contactTestBitMask = playerCategory | laserCategory
+        enemy.physicsBody?.contactTestBitMask = playerCategory
         enemy.physicsBody?.collisionBitMask = 0
         addChild(enemy)
-        //        сохраняю скорость степпера
+        //        задаю скорость врагов
         if let savedStepperValue = UserDefaults.standard.value(forKey: "StepperValue") as? Double {
             let moveAction = SKAction.moveTo(y: -100, duration: savedStepperValue)
             let delateAction = SKAction.removeFromParent()
@@ -165,16 +144,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func updateEnemyCounterLabel(count: Int) {
-        shotCounterLabel.text = "Shots: \(count)"
+        enemyCounterLabel.text = "Enemies: \(count)"
     }
     
     func restartGame() {
-        removeAllChildren() // Remove all nodes from the scene
-        setupScene() // Reinitialize the scene
-        isCollisionOccurred = false // Reset collision flag
-        enemyCounter = 0 // Reset shot count
-        isGameRunning = true // Запускаем игру снова
-        startTimers() // Restart timers
+        removeAllChildren()
+        setupScene()
+        isCollisionOccurred = false
+        enemyCounter = 0
+        isGameRunning = true
+        startTimers()
     }
     
     
@@ -205,29 +184,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func saveScore() {
-        // Сохраняем текущее значение очков для текущего имени игрока
+        // Сохраняю текущее значение очков для текущего имени игрока
         if let playerName = nameLabel.text,
-           let scoreString = shotCounterLabel.text?.split(separator: " ").last,
+           let scoreString = enemyCounterLabel.text?.split(separator: " ").last,
            let score = Int(scoreString) {
             
-            // Получаем текущий словарь из UserDefaults
+            // Получаю текущий словарь из UserDefaults
             var nameScoreDictionary = UserDefaults.standard.dictionary(forKey: "NameScoreDictionary") as? [String: Int] ?? [:]
             
-            // Проверяем, есть ли уже запись для данного имени в словаре
+            // Проверяю, есть ли уже запись для данного имени в словаре
             if let existingScore = nameScoreDictionary[playerName] {
-                // Если текущее значение очков больше или равно существующему, обновляем запись
+                // Если текущее значение очков больше или равно существующему, обновляю запись
                 if score >= existingScore {
                     nameScoreDictionary[playerName] = score
-                    // Сохраняем обновленный словарь обратно в UserDefaults
+                    // Сохраню обновленный словарь обратно в UserDefaults
                     UserDefaults.standard.set(nameScoreDictionary, forKey: "NameScoreDictionary")
                     print("Данные сохранились")
                 } else {
                     print("Текущее значение очков меньше существующего")
                 }
             } else {
-                // Если записи для данного имени еще нет, добавляем новую запись
+                // Если записи для данного имени еще нет, добавляю новую запись
                 nameScoreDictionary[playerName] = score
-                // Сохраняем обновленный словарь обратно в UserDefaults
+                // Сохраняю обновленный словарь обратно в UserDefaults
                 UserDefaults.standard.set(nameScoreDictionary, forKey: "NameScoreDictionary")
                 print("Данные сохранились")
             }
@@ -282,13 +261,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func resetPlayer() {
-        // Удалите старого игрока, если он уже существует
+        // Удаляю старого игрока, если он уже существует
         player.removeFromParent()
         
-        // Пересоздайте игрока
-        createPlayer(playerType: "ship1")
+        // Пересоздаю игрока
+        createPlayer(playerType: "")
         
-        // Сбросьте флаг isCollisionOccurred, чтобы игрок мог стрелять снова
+        // Сбрасываю флаг isCollisionOccurred, чтобы игрок мог стрелять снова
         isCollisionOccurred = false
     }
     

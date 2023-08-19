@@ -13,7 +13,6 @@ class ScoresTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(ScoreTableViewCell.self, forCellReuseIdentifier: ScoreTableViewCell.reuseIdentifier)
-        tableView.tableFooterView = UIView()
         loadScores()
     }
 

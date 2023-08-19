@@ -9,7 +9,9 @@ import UIKit
 
 class ShipCollectionViewCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "ShipCollectionViewCell"
+    // MARK: - Properties
+    
+    static var reuseIdentifier: String { "\(Self.self)" }
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -18,20 +20,20 @@ class ShipCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    override var isSelected: Bool {
-            didSet {
-                contentView.layer.borderColor = isSelected ? UIColor.blue.cgColor : UIColor.black.cgColor
-            }
-        }
+    // MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
     }
     
+    
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+        
+    // MARK: - UI Setup
     
     private func setupUI() {
         contentView.addSubview(imageView)
@@ -43,12 +45,13 @@ class ShipCollectionViewCell: UICollectionViewCell {
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
         
-        // Добавляем черную рамку
-        contentView.layer.borderWidth = 2
         contentView.layer.borderColor = UIColor.black.cgColor
+        contentView.layer.borderWidth = 2
         contentView.layer.cornerRadius = 10
         contentView.clipsToBounds = true
     }
+    
+    // MARK: - Configuration
     
     func configure(with imageName: String) {
         imageView.image = UIImage(named: imageName)

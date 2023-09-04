@@ -130,7 +130,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.physicsBody?.contactTestBitMask = playerCategory
         enemy.physicsBody?.collisionBitMask = 0
         addChild(enemy)
-        //        задаю скорость врагов
+        // Задаю скорость врагов
         if let savedStepperValue = UserDefaults.standard.value(forKey: "StepperValue") as? Double {
             let moveAction = SKAction.moveTo(y: -100, duration: savedStepperValue)
             let delateAction = SKAction.removeFromParent()
@@ -155,7 +155,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         isGameRunning = true
         startTimers()
     }
-    
     
     
     // MARK: - Touches

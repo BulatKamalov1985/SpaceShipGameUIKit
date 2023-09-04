@@ -15,7 +15,7 @@ class ScoresTableViewController: UITableViewController {
         tableView.register(ScoreTableViewCell.self, forCellReuseIdentifier: ScoreTableViewCell.reuseIdentifier)
         loadScores()
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return scoresAndNames.count
     }

@@ -159,7 +159,7 @@ class SettingsViewController: UIViewController, UICollectionViewDataSource, UICo
         let selectedName = ShipsDataStorage.shipNames[indexPath.item]
         nameShipLabel.text = selectedName
         UserDefaults.standard.set(selectedName, forKey: "SelectedShipName")
-        aircraftCollectionView.reloadData() // Обновляем коллекцию для обновления стиля выбранной ячейки
+        aircraftCollectionView.reloadData()
     }
     
     // MARK: - UI Actions
@@ -204,7 +204,6 @@ class SettingsViewController: UIViewController, UICollectionViewDataSource, UICo
             speedStepper.value = savedStepperValue
             valueSpeedLabel.text = "Уровень скорости: \(Int(savedStepperValue))"
         } else {
-            // Если значение не найдено в UserDefaults, установите значение по умолчанию
             speedStepper.value = 10
             valueSpeedLabel.text = "Уровень скорости: 10"
         }

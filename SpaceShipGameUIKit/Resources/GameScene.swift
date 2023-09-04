@@ -219,16 +219,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Метод для обработки столкновений объектов и показа взрывов
     func didBegin(_ contact: SKPhysicsContact) {
-        // Определяем узлы, с которыми произошло столкновение
+        // Определяю узлы, с которыми произошло столкновение
         let bodyA = contact.bodyA.node
         let bodyB = contact.bodyB.node
         
-        // Проверяем наличие узлов, с которыми произошло столкновение
+        // Проверяю наличие узлов, с которыми произошло столкновение
         guard let nodeA = bodyA, let nodeB = bodyB else {
             return
         }
         
-        // Проверяем, если player столкнулся с врагом, удаляем оба узла
+        // Проверяю, если player столкнулся с врагом, удаляю оба узла
         if (nodeA.name == "ENEMY" && nodeB.name == "PLAYER") || (nodeB.name == "ENEMY" && nodeA.name == "PLAYER") {
             player.removeFromParent()
             nodeA.removeFromParent()
@@ -239,7 +239,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             showGameOverAlert()
         }
         
-        // Определяем позицию столкновения и показываем взрыв
+        // Определяю позицию столкновения и показываю взрыв
         let collisionPosition = contact.contactPoint
         showExplosion(at: collisionPosition)
     }

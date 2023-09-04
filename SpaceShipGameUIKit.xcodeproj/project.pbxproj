@@ -68,19 +68,59 @@
 			isa = PBXGroup;
 			children = (
 				39327EDB2A8B9B550067F9ED /* Starfield.sks */,
-				39327EC22A8B97FB0067F9ED /* AppDelegate.swift */,
-				39327EC82A8B97FB0067F9ED /* GameScene.swift */,
+				399E99DC2AA5F8A100424D93 /* Resources */,
+				399E99DB2AA5F88600424D93 /* ViewControllers */,
+				399E99DD2AA5F8B900424D93 /* Storage */,
+				399E99DE2AA5F8CF00424D93 /* Cells */,
+				399E99DF2AA5F8E000424D93 /* Model */,
+				39327ECF2A8B97FF0067F9ED /* Assets.xcassets */,
+			);
+			path = SpaceShipGameUIKit;
+			sourceTree = "<group>";
+		};
+		399E99DB2AA5F88600424D93 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
 				39327ECA2A8B97FB0067F9ED /* GameViewController.swift */,
 				39327ED92A8B98C50067F9ED /* WelcomeViewController.swift */,
 				39327EDF2A8CC4060067F9ED /* ScoreTableViewController.swift */,
 				39327EE52A8CC9D70067F9ED /* SettigsViewController.swift */,
-				39327F112A9107A80067F9ED /* DataStorage.swift */,
-				39327F0F2A8E3DF20067F9ED /* CollectionViewCell.swift */,
-				39327EE32A8CC45D0067F9ED /* ScoreModel.swift */,
-				39327EE12A8CC4440067F9ED /* ScoreTableViewCell.swift */,
-				39327ECF2A8B97FF0067F9ED /* Assets.xcassets */,
 			);
-			path = SpaceShipGameUIKit;
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		399E99DC2AA5F8A100424D93 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				39327EC22A8B97FB0067F9ED /* AppDelegate.swift */,
+				39327EC82A8B97FB0067F9ED /* GameScene.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		399E99DD2AA5F8B900424D93 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				39327F112A9107A80067F9ED /* DataStorage.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		399E99DE2AA5F8CF00424D93 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				39327EE12A8CC4440067F9ED /* ScoreTableViewCell.swift */,
+				39327F0F2A8E3DF20067F9ED /* CollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		399E99DF2AA5F8E000424D93 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				39327EE32A8CC45D0067F9ED /* ScoreModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
